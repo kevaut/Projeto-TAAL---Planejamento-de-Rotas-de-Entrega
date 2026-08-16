@@ -41,13 +41,12 @@ def executar_teste():
         elif alg == "3":
             nome_alg = "Programação Dinâmica"
             solver = ProgramacaoDinamica(matriz)
+        elif alg == "4":
+            nome_alg = "Estratégia Gulosa"
+            solver = EstrategiaGulosa(matriz)
         else:
-            if alg == "5":
-                nome_alg = "2-Opt"
-                solver = TwoOpt(matriz)
-            else:
-                nome_alg = "Estratégia Gulosa"
-                solver = EstrategiaGulosa(matriz)
+            nome_alg = "2-Opt"
+            solver = TwoOpt(matriz)
             
         melhor_distancia, melhor_rota, estados_explorados = solver.resolver()
 
