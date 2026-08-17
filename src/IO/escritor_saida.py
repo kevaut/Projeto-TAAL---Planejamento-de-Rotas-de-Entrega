@@ -4,7 +4,6 @@ def imprimir_menu():
     print("2 - Ver relatório")
     print("3 - Salvar relatório em arquivo")
     print("4 - Gerar gráficos comparativos")
-    print("5 - 2-Opt (heurística de melhoria)")
     print("0 - Sair")
 
 def imprimir_resultado(distancia, rota):
