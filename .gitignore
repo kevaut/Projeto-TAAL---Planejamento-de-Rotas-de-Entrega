@@ -9,5 +9,13 @@ build/
 env/
 /.env
 *.egg-info/
-Relatorios/*.png
-Relatorios/*.csv
+validate_*.py
+run_validation.py
+quick_validate.py
+PROMPT_RELATORIO.md
+VALIDATION_LOG.txt
+pytest_*.txt
+.tmp_*.txt
+output/
+Tecnicas-de-Analise-de-Algoritmos--Planejamento-de-Rotas-de-Entrega-main/
+*.log
