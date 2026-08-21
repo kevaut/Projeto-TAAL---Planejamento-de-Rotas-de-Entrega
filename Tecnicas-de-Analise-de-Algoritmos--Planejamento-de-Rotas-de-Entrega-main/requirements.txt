@@ -1,3 +1,0 @@
-matplotlib
-# Optional (uncomment if you want system RSS memory measurements):
-# psutil
