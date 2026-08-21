@@ -1,5 +1,6 @@
 matplotlib
 pytest>=8.0
 click
+questionary
 # Optional (uncomment if you want system RSS memory measurements):
 # psutil

@@ -4,6 +4,7 @@ import tracemalloc
 import sys
 import os
 import click
+import questionary
 
 # Adicionar diretório src ao path
 sys.path.insert(0, os.path.dirname(__file__))
@@ -31,16 +32,17 @@ def executar_teste_direto(alg, n, pontos):
         # mede memória alocada durante a execução do solver
         tracemalloc.start()
 
-        if alg == "1":
+        # Mapeamento ajustado para o novo menu (opções em string)
+        if alg == "Branch and Bound":
             nome_alg = "Branch and Bound"
             solver = BranchAndBound(matriz)
-        elif alg == "2":
+        elif alg == "Backtracking":
             nome_alg = "Backtracking"
             solver = Backtracking(matriz)
-        elif alg == "3":
+        elif alg == "Programação Dinâmica":
             nome_alg = "Programação Dinâmica"
             solver = ProgramacaoDinamica(matriz)
-        elif alg == "4":
+        elif alg == "Estratégia Gulosa":
             nome_alg = "Estratégia Gulosa"
             solver = EstrategiaGulosa(matriz)
         else:
@@ -89,43 +91,72 @@ def executar_teste_direto(alg, n, pontos):
 
 def executar_teste():
     try:
-        alg, n, pontos = leitor_entrada.ler_dados_teste()
-        executar_teste_direto(alg, n, pontos)
+        alg_map = {
+            "Branch and Bound": "1",
+            "Backtracking": "2",
+            "Programação Dinâmica": "3",
+            "Estratégia Gulosa": "4",
+            "2-Opt (heurística de melhoria)": "5"
+        }
+        alg_selecionado = questionary.select(
+            "Selecione o Algoritmo:",
+            choices=list(alg_map.keys())
+        ).ask()
+        
+        if not alg_selecionado: return
+
+        n = click.prompt("Número de clientes", type=click.IntRange(min=1))
+
+        pontos = []
+        dep_str = click.prompt("Coordenadas do Depósito (x y)")
+        xd, yd = map(float, dep_str.split())
+        pontos.append((xd, yd))
+
+        for i in range(n):
+            cli_str = click.prompt(f"Coordenadas do Cliente {i+1} (x y)")
+            x, y = map(float, cli_str.split())
+            pontos.append((x, y))
+
+        executar_teste_direto(alg_selecionado, n, pontos)
     except Exception as e:
-        click.secho(f"Erro ao obter dados de entrada: {e}", fg="red")
+        click.secho(f"Erro ao executar teste: {e}", fg="red")
 
 def menu_interativo():
     click.clear()
     while True:
         try:
-            click.echo(click.style("\n=== PLANEJAMENTO DE ROTAS DE ENTREGA (TSP) ===", fg="blue", bold=True))
-            click.echo("1 - Executar teste interativo")
-            click.echo("2 - Ver relatório acumulado em memória")
-            click.echo("3 - Salvar relatório acumulado em arquivo (.txt)")
-            click.echo("4 - Gerar gráficos comparativos (N=3 a N=10)")
-            click.echo("0 - Sair")
+            opcao = questionary.select(
+                "=== PLANEJAMENTO DE ROTAS DE ENTREGA (TSP) ===",
+                choices=[
+                    "Executar teste interativo",
+                    "Ver relatório acumulado em memória",
+                    "Salvar relatório acumulado em arquivo (.txt)",
+                    "Gerar gráficos comparativos (N=3 a N=10)",
+                    "Sair"
+                ]
+            ).ask()
 
-            op = leitor_entrada.ler_opcao_menu()
-
-            if op == "0":
+            if opcao == "Sair" or not opcao:
                 click.secho("Encerrando aplicação...", fg="yellow")
                 break
-            elif op == "1":
+            elif opcao == "Executar teste interativo":
                 executar_teste()
-            elif op == "2":
+            elif opcao == "Ver relatório acumulado em memória":
                 relatorioController.imprimir_relatorios()
-            elif op == "3":
-                nome = leitor_entrada.ler_nome_arquivo()
+                click.pause()
+            elif opcao == "Salvar relatório acumulado em arquivo (.txt)":
+                nome = click.prompt("Nome do arquivo de saída", default="relatorio.txt")
                 relatorioController.salvar_relatorios_txt(nome)
-            elif op == "4":
-                click.secho("Executando simulações de benchmark e gerando gráficos...", fg="cyan", bold=True)
+            elif opcao == "Gerar gráficos comparativos (N=3 a N=10)":
+                click.secho("Executando simulações de benchmark...", fg="cyan", bold=True)
                 graficoController.executar_testes_e_plotar()
-            else:
-                click.secho("Opção inválida.", fg="red")
+                click.pause()
+            
+            click.clear()
 
         except (EOFError, KeyboardInterrupt):
-            click.secho("\nEntrada interrompida. Retornando ao menu principal...", fg="yellow")
-            continue
+            click.secho("\nEncerrando...", fg="yellow")
+            break
 
 @click.group(invoke_without_command=True)
 @click.pass_context
