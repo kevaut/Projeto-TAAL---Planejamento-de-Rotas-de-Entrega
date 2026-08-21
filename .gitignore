@@ -17,5 +17,5 @@ VALIDATION_LOG.txt
 pytest_*.txt
 .tmp_*.txt
 output/
-Tecnicas-de-Analise-de-Algoritmos--Planejamento-de-Rotas-de-Entrega-main/
+Relatorios/
 *.log
