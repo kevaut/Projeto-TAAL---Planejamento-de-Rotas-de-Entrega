@@ -16,7 +16,7 @@ def calcular_distancia(p1, p2):
 
 def executar_testes_e_plotar(ns=None, seed=42, save_instances=False, out_dir="Relatorios"):
     if ns is None:
-        ns = list(range(3, 11))
+        ns = list(range(3, 10))
     tempos_bt = []
     tempos_bb = []
     tempos_pd = []
