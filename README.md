@@ -37,17 +37,17 @@ retorna ao depósito, minimizando a distância total percorrida.
 
 ## Usabilidade
 
-O projeto agora conta com uma interface de linha de comando (CLI) profissional baseada na biblioteca **Click**. Você pode utilizá-la de duas formas:
+O projeto conta com uma interface de linha de comando (CLI) robusta. Você pode utilizá-la de duas formas:
 
-### 1. Modo Interativo
-Inicie o menu interativo apenas executando o programa sem argumentos:
+### 1. Modo Interativo (Menu via Teclado)
+Inicie o menu interativo executando o programa sem argumentos:
 ```bash
 python src/main.py
 ```
-Siga as instruções na tela para executar testes, ver relatórios ou gerar gráficos.
+O menu utiliza navegação moderna com **setas do teclado** e **Enter** para seleção (implementado via `questionary`). Siga as instruções na tela para executar testes, ver relatórios ou gerar gráficos.
 
-### 2. Modo de Linha de Comando (CLI)
-Para automação ou execuções rápidas, utilize os subcomandos disponíveis:
+### 2. Modo de Linha de Comando (CLI Pro)
+Para automação ou execuções rápidas, utilize os subcomandos baseados na biblioteca **Click**:
 
 #### Resolver uma instância específica
 ```bash
